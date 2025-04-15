@@ -1,0 +1,7 @@
+*.swp
+tmp/
+
+users_followed.txt
+users_failed_follow.txt
+
+auth_key.txt

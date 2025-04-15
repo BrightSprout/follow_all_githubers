@@ -25,20 +25,21 @@ follow_user() {
    url="https://api.github.com/user/following/${1}"
    auth_key=$(cat auth_key.txt)
 
-   response=(curl -L \
-   -X PUT \
+   response=$(curl -s -w "%{http_code}" \
+   -L -X PUT \
    -H "Accept: application/vnd.github+json" \
    -H "Authorization: Bearer $auth_key" \
    -H "X-GitHub-Api-Version: 2022-11-28" \
-   -w "%{http_code}" \
-   -s "$url")
+   "$url")
 
    http_code="${response: -3}"
-    
+
    if [ "$http_code" -ne 200 ]; then
        users_failed_follow+=("${1}")
+       echo "Failed to follow: \"${1}\""
    else 
        followed_users+=("${1}")
+       echo "Followed: \"${1}\""
    fi
 }
 
